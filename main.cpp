@@ -5,8 +5,11 @@
 
 using namespace std;
 
+
+
 void heapSort(vector<int> &mass);
 void outMass(vector<int> &mass);
+
 
 int main() {
     cout << "Enter full file name: ";
@@ -30,6 +33,11 @@ int main() {
     heapSort(mass);
 
     cout << "Sorted mass: ";
+    ofstream ofile ("sorted.txt");
+    for (int i = 0; i < mass.size(); i++)
+    {
+        ofile << mass[i] << " ";
+    }
     outMass(mass);
     return 0;
 }
@@ -59,6 +67,9 @@ void buildTree(vector<int> &mass,int root, int size){
         int left = 2 * i + 1;
         int right = 2 * i + 2;
 
+        if (left >= size)
+            return;
+
         if ((mass[left] > mass[right] && mass[i] < mass[left]) || (right >= size && mass[i] < mass[left])){
             swap(mass[left], mass[i]);
             recBuildTree(mass, left, size);
@@ -73,6 +84,9 @@ void buildTree(vector<int> &mass,int root, int size){
 void recBuildTree(vector<int> &mass,int root, int size){
     int left = 2 * root + 1;
     int right = 2 * root + 2;
+
+    if (left >= size)
+        return;
 
     if ((right >= size && mass[root] < mass[left]) || (mass[left] > mass[right] && mass[root] < mass[left])){
         swap(mass[left], mass[root]);
